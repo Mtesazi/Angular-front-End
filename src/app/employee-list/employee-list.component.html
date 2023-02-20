@@ -2,19 +2,19 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Address</th>
-            <th>EmailId</th>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Address</th>
+            <th>EmailId</th>          
             <th>Telephone</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor = "let employee of employees">
-            <td>{{employee.address}}</td>
-            <td>{{employee.emailId}}</td>
+        <tr *ngFor = "let employee of employees">           
             <td>{{employee.firstName}}</td>
             <td>{{employee.lastName}}</td>
+            <td>{{employee.address}}</td>
+            <td>{{employee.emailId}}</td>
             <td>{{employee.telephone}}</td>
         </tr>
     </tbody>
