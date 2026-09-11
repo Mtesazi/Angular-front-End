@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Employee } from '../employee';
 import { EmployeeService } from '../employee.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employee-list',
@@ -9,32 +9,40 @@ import { Router } from '@angular/router';
   styleUrls: ['./employee-list.component.css']
 })
 export class EmployeeListComponent implements OnInit {
-  employees : Employee[];
+  employees: Employee[] = [];
 
-  constructor( private employeeService : EmployeeService, private router: Router) {}
+  constructor(
+    private employeeService: EmployeeService,
+    private router: Router
+  ) {}
+
   ngOnInit(): void {
     this.getEmployees();
-    
-  }
-  private getEmployees(){
-    this.employeeService.getEmployeesList().subscribe(data => {
-    this.employees = data;
-    });
-  }
-  updateEmployee(id : number){
-    this.router.navigate(['update-employee',id]);
-
   }
 
-  employeeDetails(id : number){
-    this.router.navigate(['employee-details',id]);
-
+  private getEmployees(): void {
+    this.employeeService.getEmployeesList().subscribe(
+      (data) => {
+        this.employees = data;
+      },
+      (error) => console.log(error)
+    );
   }
 
-  deleteEmployee(id : number){
-    this.employeeService.deleteEmployee(id).subscribe(data =>{
-      console.log(data);
-      this.getEmployees();
-    })
+  updateEmployee(id: number): void {
+    this.router.navigate(['update-employee', id]);
+  }
+
+  employeeDetails(id: number): void {
+    this.router.navigate(['employee-details', id]);
+  }
+
+  deleteEmployee(id: number): void {
+    this.employeeService.deleteEmployee(id).subscribe(
+      () => {
+        this.getEmployees();
+      },
+      (error) => console.log(error)
+    );
   }
 }

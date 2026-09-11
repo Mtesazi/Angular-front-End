@@ -1,7 +1,7 @@
-import { Component,OnInit  } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Employee } from '../employee';
 import { EmployeeService } from '../employee.service';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-update-employee',
@@ -9,26 +9,47 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./update-employee.component.css']
 })
 export class UpdateEmployeeComponent implements OnInit {
-  id : number;
-  employee : Employee = new Employee();
-  constructor(private  route : ActivatedRoute,private employeeService: EmployeeService, private router : Router){}
+  id!: number;
+  employee: Employee = new Employee();
+
+  constructor(
+    private route: ActivatedRoute,
+    private employeeService: EmployeeService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.params['id'];
-    this.employeeService.getEmployeeById(this.id).subscribe(data => {
-      this.employee = data;      
-    },error => console.log(error));    
-    
+    const routeId = this.route.snapshot.paramMap.get('id');
+
+    if (!routeId) {
+      this.router.navigate(['/employees']);
+      return;
+    }
+
+    this.id = Number(routeId);
+
+    this.employeeService.getEmployeeById(this.id).subscribe(
+      (data) => {
+        this.employee = data;
+      },
+      (error) => console.log(error)
+    );
   }
 
-  onSubmit(){
-    this.employeeService.updateEmployee( this.id, this.employee).subscribe(data => {
-      this.goToEmployeeList();
-    },error => console.log(error));
+  onSubmit(): void {
+    if (!this.id) {
+      return;
+    }
 
+    this.employeeService.updateEmployee(this.id, this.employee).subscribe(
+      () => {
+        this.goToEmployeeList();
+      },
+      (error) => console.log(error)
+    );
   }
 
-  goToEmployeeList(){
+  goToEmployeeList(): void {
     this.router.navigate(['/employees']);
   }
 }
