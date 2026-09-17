@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'angularfrontend'`, () => {
+  it(`should have as title 'Angular 10 Spring Boot CRUD Full Stack Application'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('angularfrontend');
+    expect(app.title).toEqual('Angular 10 Spring Boot CRUD Full Stack Application');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('angularfrontend app is running!');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Angular 10 Spring Boot CRUD Full Stack Application');
   });
 });
