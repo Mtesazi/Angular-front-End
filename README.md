@@ -1,27 +1,90 @@
-# Angularfrontend
+# Angular Front-End (Employee CRUD)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.5.
+This is the Angular front-end for the Employee CRUD application.
 
-## Development server
+Backend repository:
+- https://github.com/Mtesazi/ems-back-end.git
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+The app runs against a backend API server (Spring Boot) via Angular proxy.
 
-## Code scaffolding
+## Tech Stack
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Angular 15.2.x
+- TypeScript 4.9.x
+- Bootstrap 5
+
+## Prerequisites
+
+- Node.js 18.x (recommended for this project version set)
+- npm 9+
+
+## Install
+
+```bash
+npm install
+```
+
+## Run With Backend
+
+Backend expectation:
+- API base: `http://localhost:8080/api`
+- Employee endpoint: `http://localhost:8080/api/employees`
+- Proxy route from Angular: `/api`
+
+Backend quick start (from your backend repository):
+
+```bash
+git clone https://github.com/Mtesazi/ems-back-end.git
+cd ems-back-end
+mvn clean install
+mvn spring-boot:run
+```
+
+Note:
+- If your backend code is under a nested folder such as `ems-back-end-ems`, run Maven commands from that folder.
+- Ensure your database settings in backend `application.properties` are configured and the backend starts on port `8080`.
+
+Frontend command:
+
+```bash
+npm start
+```
+
+This uses `ng serve --proxy-config proxy.config.json` and serves the app at:
+- `http://localhost:4200`
+
+If backend is not running, API calls will fail with `ECONNREFUSED` in the dev server proxy logs.
+
+## Environment Notes
+
+- Development config: `src/environments/environment.ts`
+	- `apiUrl: '/api'`
+- Production config: `src/environments/environment.prod.ts`
+	- `apiUrl: 'http://localhost:8080/api'`
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+npm run build
+```
 
-## Running unit tests
+## Test
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+npm test -- --watch=false --browsers=ChromeHeadless
+```
 
-## Running end-to-end tests
+## Troubleshooting
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- Dependency resolution error (`ERESOLVE`):
+	- Ensure Angular packages are aligned to 15.2.10+ patch line in `package.json`.
+- Proxy error to backend (`ECONNREFUSED`):
+	- Start backend on port `8080`, or update `proxy.config.json` target.
+- First CLI prompt about autocompletion:
+	- You can safely answer `n`.
 
-## Further help
+## Useful Scripts
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- `npm start` - run dev server with proxy
+- `npm run build` - production build
+- `npm test` - unit tests (Karma)
